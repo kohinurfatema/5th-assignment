@@ -115,7 +115,7 @@ export default function TenantDashboard() {
                     )}
                     {r.status === 'ACTIVE' && (
                       <Link
-                        href={`/properties/${r.propertyId}`}
+                        href={`/dashboard/tenant/reviews/new?propertyId=${r.propertyId}`}
                         className="bg-green-600 hover:bg-green-700 text-white text-xs font-medium px-4 py-2 rounded-lg transition"
                       >
                         Leave Review
