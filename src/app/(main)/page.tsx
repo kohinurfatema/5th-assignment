@@ -39,16 +39,15 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+      <section className="relative bg-gradient-to-r from-blue-500 to-indigo-600 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/10" />
         <div className="relative max-w-4xl mx-auto px-4 py-28 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-sm mb-6">
+          <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 rounded-full px-4 py-1.5 text-sm mb-6">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             2,000+ properties available now
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold mb-5 leading-tight tracking-tight">
-            Find Your Perfect<br />
-            <span className="text-blue-200">Rental Home</span>
+            Find Your Perfect<br />Rental Home
           </h1>
           <p className="text-blue-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
             Browse thousands of verified rental properties across Bangladesh — apartments, houses, studios and more.
@@ -60,14 +59,15 @@ export default function HomePage() {
               placeholder="Search by location (e.g. Dhaka, Gulshan...)"
               className="flex-1 px-5 py-4 text-gray-800 text-sm outline-none"
             />
-            <button type="submit" className="bg-blue-600 hover:bg-blue-700 px-6 flex items-center gap-2 text-white transition font-medium text-sm">
+            <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 px-6 flex items-center gap-2 text-white transition font-medium text-sm">
               <Search size={18} />
               Search
             </button>
           </form>
-          <div className="flex flex-wrap justify-center gap-3 mt-6 text-sm text-blue-100">
+          <div className="flex flex-wrap justify-center gap-3 mt-5 text-sm text-blue-100">
+            <span>Popular:</span>
             {['Dhaka', 'Chittagong', 'Gulshan', 'Mirpur', 'Sylhet'].map(city => (
-              <button key={city} onClick={() => { setSearch(city); }} className="hover:text-white underline-offset-2 hover:underline transition">
+              <button key={city} onClick={() => setSearch(city)} className="text-white font-medium hover:underline transition">
                 {city}
               </button>
             ))}
