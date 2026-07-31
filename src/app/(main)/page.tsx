@@ -10,7 +10,15 @@ import { ApiResponse, Property } from '@/types';
 import PropertyCard from '@/components/properties/PropertyCard';
 import PropertyCardSkeleton from '@/components/properties/PropertyCardSkeleton';
 
-const CATEGORIES = ['Apartment', 'House', 'Studio', 'Villa', 'Duplex', 'Room', 'Office Space'];
+const CATEGORIES = [
+  { name: 'Apartment', icon: '🏢' },
+  { name: 'House', icon: '🏡' },
+  { name: 'Studio', icon: '🛋️' },
+  { name: 'Villa', icon: '🏰' },
+  { name: 'Duplex', icon: '🏘️' },
+  { name: 'Room', icon: '🛏️' },
+  { name: 'Office Space', icon: '🏬' },
+];
 
 export default function HomePage() {
   const router = useRouter();
@@ -86,15 +94,19 @@ export default function HomePage() {
 
       {/* Categories */}
       <section className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="text-xl font-bold text-gray-900 mb-5">Browse by Type</h2>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-900">Browse by Type</h2>
+          <Link href="/properties" className="text-sm text-blue-600 hover:underline font-medium">View all →</Link>
+        </div>
+        <div className="grid grid-cols-4 sm:grid-cols-7 gap-3">
           {CATEGORIES.map(cat => (
             <Link
-              key={cat}
-              href={`/properties?category=${cat}`}
-              className="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm text-gray-600 hover:border-blue-500 hover:text-blue-600 transition shadow-sm"
+              key={cat.name}
+              href={`/properties?category=${cat.name}`}
+              className="flex flex-col items-center gap-2 p-3 bg-white border border-gray-100 rounded-2xl text-center hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group shadow-sm"
             >
-              {cat}
+              <span className="text-2xl">{cat.icon}</span>
+              <span className="text-xs font-medium text-gray-600 group-hover:text-blue-600 transition-colors leading-tight">{cat.name}</span>
             </Link>
           ))}
         </div>

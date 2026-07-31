@@ -1,44 +1,71 @@
 import Link from 'next/link';
 import { Property } from '@/types';
 import { formatPrice } from '@/lib/utils';
-import { MapPin, Bed, Bath } from 'lucide-react';
+import { MapPin, Bed, Bath, ArrowRight } from 'lucide-react';
 
 export default function PropertyCard({ property }: { property: Property }) {
   return (
     <Link href={`/properties/${property.id}`}>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
-        <div className="relative h-48 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+      <div className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 group border border-gray-100 hover:-translate-y-1">
+        {/* Image */}
+        <div className="relative h-52 overflow-hidden">
           {property.images?.[0] ? (
             <img
               src={property.images[0]}
               alt={property.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
-            <span className="text-6xl opacity-40">🏠</span>
+            <div className="w-full h-full bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 flex items-center justify-center">
+              <span className="text-7xl opacity-30">🏠</span>
+            </div>
           )}
-          <span className={`absolute top-3 right-3 text-xs font-medium px-2.5 py-1 rounded-full ${
-            property.status === 'AVAILABLE' ? 'bg-green-100 text-green-700' :
-            property.status === 'RENTED' ? 'bg-red-100 text-red-700' :
-            'bg-gray-100 text-gray-600'
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+          {/* Status badge */}
+          <span className={`absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm ${
+            property.status === 'AVAILABLE' ? 'bg-green-500/90 text-white' :
+            property.status === 'RENTED' ? 'bg-red-500/90 text-white' :
+            'bg-gray-500/90 text-white'
           }`}>
             {property.status}
           </span>
+
+          {/* Price overlay */}
+          <div className="absolute bottom-3 left-3">
+            <p className="text-white font-bold text-lg leading-none">
+              {formatPrice(property.pricePerMonth)}
+              <span className="text-white/70 text-xs font-normal">/mo</span>
+            </p>
+          </div>
+
+          {/* Category badge */}
+          {property.category?.name && (
+            <span className="absolute top-3 right-3 text-xs font-medium px-2.5 py-1 bg-white/90 backdrop-blur-sm text-blue-700 rounded-full">
+              {property.category.name}
+            </span>
+          )}
         </div>
+
+        {/* Content */}
         <div className="p-4">
-          <p className="text-xs text-blue-600 font-medium mb-1">{property.category?.name}</p>
-          <h3 className="font-semibold text-gray-900 truncate">{property.title}</h3>
-          <div className="flex items-center gap-1 text-gray-500 text-sm mt-1">
-            <MapPin size={13} />
+          <h3 className="font-semibold text-gray-900 truncate text-base group-hover:text-blue-600 transition-colors">
+            {property.title}
+          </h3>
+          <div className="flex items-center gap-1 text-gray-500 text-sm mt-1.5">
+            <MapPin size={13} className="text-blue-400 flex-shrink-0" />
             <span className="truncate">{property.location}</span>
           </div>
-          <div className="flex items-center gap-4 mt-3 text-sm text-gray-600">
-            <span className="flex items-center gap-1"><Bed size={14} />{property.bedrooms} bed</span>
-            <span className="flex items-center gap-1"><Bath size={14} />{property.bathrooms} bath</span>
-          </div>
-          <div className="mt-3 flex items-center justify-between">
-            <p className="text-blue-600 font-bold">{formatPrice(property.pricePerMonth)}<span className="text-gray-400 text-xs font-normal">/mo</span></p>
-            <span className="text-xs text-gray-500">by {property.landlord?.name}</span>
+
+          <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+            <div className="flex items-center gap-3 text-sm text-gray-500">
+              <span className="flex items-center gap-1"><Bed size={14} className="text-blue-400" />{property.bedrooms} bed</span>
+              <span className="flex items-center gap-1"><Bath size={14} className="text-blue-400" />{property.bathrooms} bath</span>
+            </div>
+            <span className="text-blue-600 group-hover:translate-x-1 transition-transform">
+              <ArrowRight size={16} />
+            </span>
           </div>
         </div>
       </div>
