@@ -21,7 +21,7 @@ export default function HomePage() {
     queryFn: () => api.get<ApiResponse<{ data: Property[] }>>('/properties?limit=6').then(r => r.data),
   });
 
-  const properties = (data?.data as any)?.data ?? [];
+  const properties: Property[] = (data?.data as any)?.data ?? data?.data ?? [];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

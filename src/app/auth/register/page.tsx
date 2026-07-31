@@ -28,13 +28,20 @@ export default function RegisterPage() {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: FormData) =>
-      api.post<ApiResponse<{ token: string; user: AuthUser }>>('/auth/register', data),
-    onSuccess: (res) => {
-      const { token, user } = res.data.data;
+    mutationFn: async (data: FormData) => {
+      await api.post('/auth/register', data);
+      // Register doesn't return a token — login immediately after
+      const loginRes = await api.post<ApiResponse<{ token: string; user: AuthUser }>>('/auth/login', {
+        email: data.email,
+        password: data.password,
+      });
+      return { loginRes, role: data.role };
+    },
+    onSuccess: ({ loginRes, role }) => {
+      const { token, user } = loginRes.data.data;
       saveAuth(token, user);
       toast.success('Account created successfully!');
-      if (user.role === 'LANDLORD') router.push('/dashboard/landlord');
+      if (role === 'LANDLORD') router.push('/dashboard/landlord');
       else router.push('/dashboard/tenant');
     },
     onError: (err: any) => {

@@ -18,20 +18,28 @@ export function middleware(request: NextRequest) {
 
   if (token) {
     if (pathname.startsWith('/auth')) {
-      const redirect = role === 'ADMIN' ? '/dashboard/admin'
-        : role === 'LANDLORD' ? '/dashboard/landlord'
-        : '/dashboard/tenant';
-      return NextResponse.redirect(new URL(redirect, request.url));
+      // Only redirect away from auth if role is also known — avoids redirect loops
+      if (role === 'ADMIN' || role === 'LANDLORD' || role === 'TENANT') {
+        const redirect = role === 'ADMIN' ? '/dashboard/admin'
+          : role === 'LANDLORD' ? '/dashboard/landlord'
+          : '/dashboard/tenant';
+        return NextResponse.redirect(new URL(redirect, request.url));
+      }
     }
 
+    const roleDashboard = role === 'ADMIN' ? '/dashboard/admin'
+      : role === 'LANDLORD' ? '/dashboard/landlord'
+      : role === 'TENANT' ? '/dashboard/tenant'
+      : '/auth/login';
+
     if (TENANT_PATHS.some((p) => pathname.startsWith(p)) && role !== 'TENANT') {
-      return NextResponse.redirect(new URL('/dashboard/' + role?.toLowerCase(), request.url));
+      return NextResponse.redirect(new URL(roleDashboard, request.url));
     }
     if (LANDLORD_PATHS.some((p) => pathname.startsWith(p)) && role !== 'LANDLORD') {
-      return NextResponse.redirect(new URL('/dashboard/' + role?.toLowerCase(), request.url));
+      return NextResponse.redirect(new URL(roleDashboard, request.url));
     }
     if (ADMIN_PATHS.some((p) => pathname.startsWith(p)) && role !== 'ADMIN') {
-      return NextResponse.redirect(new URL('/dashboard/' + role?.toLowerCase(), request.url));
+      return NextResponse.redirect(new URL(roleDashboard, request.url));
     }
   }
 
