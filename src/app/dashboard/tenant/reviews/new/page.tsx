@@ -26,7 +26,7 @@ export default function LeaveReviewPage() {
   const [selected, setSelected] = useState(0);
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
   });
 
   const { mutate, isPending } = useMutation({

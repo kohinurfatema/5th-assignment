@@ -45,7 +45,7 @@ export default function EditPropertyPage() {
   const property = propertyData?.data;
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
   });
 
   useEffect(() => {

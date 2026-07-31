@@ -35,7 +35,7 @@ export default function NewPropertyPage() {
   const categories: Category[] = categoriesData?.data ?? [];
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
   });
 
   const { mutate, isPending } = useMutation({
