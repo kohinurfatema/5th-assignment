@@ -25,7 +25,7 @@ export default function LandlordRequestsPage() {
 
   const { mutate: updateStatus, isPending } = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) =>
-      api.patch(`/landlord/requests/${id}`, { status }),
+      api.post(`/landlord/requests/${id}/status`, { status }),
     onSuccess: (_, vars) => {
       toast.success(`Request ${vars.status === 'APPROVED' ? 'approved' : 'rejected'}`);
       queryClient.invalidateQueries({ queryKey: ['landlord-requests'] });
